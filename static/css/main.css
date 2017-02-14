@@ -130,6 +130,13 @@ header {
   color: #3a3a3a;
 }
 
+.Nav-bar{
+  float: right;
+}
+
+.Nav-bar > span {
+  margin-right: 20px;
+}
 
 /*
  * Hero section 
@@ -183,6 +190,10 @@ header {
   font-size: 18px;
   padding: 5px 0;
   width: 100%;
+}
+
+#SearchBar input {
+  width: 85%;
 }
 
 .form-group input:focus {

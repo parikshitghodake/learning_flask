@@ -7,12 +7,12 @@
   <body>
     <header>
       <div class="container">
-        <h1 class="title">Learning Flask</h1>
+        <h1 class="title">Movie Tracker</h1>
+        <div class="Nav-bar"><span><a href="{{ url_for('home') }}">Home</a></span><span><a href="{{ url_for('feedback') }}">Feedback</a></span><span><a href="{{ url_for('logout') }}">Log Out</a></span></div>
       </div>
     </header>
     
     {% block content %}
-    {% endblock %}
-    
+    {% endblock %} 
   </body>
 </html>

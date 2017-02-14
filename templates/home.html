@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+	<main class = "hero-section">
+	  <div class = "container">
+	    
+	  <div class="section-tabs">
+	  	
+	  </div>
+
+	  <div class="section-map">
+	  	<div class="nav">
+	  		<form method="POST" action="/home">
+	  			{{form.hidden_tag()}}
+
+	  			<div class="form-group" id ="SearchBar">
+        	      {% if form.movie_name.errors %}
+                     {% for error in form.movie_name.errors %}
+                		<p class="error-message">{{error}}</p>
+              		 {% endfor %}
+            	  {% endif %}
+
+      		 	 {{form.movie_name(placeholder="Search a Movie")}}
+	  			</div>
+	  			
+	  			{{ form.submit(class="btn-primary")}}
+	  		
+	  		</form>
+	  	</div>
+	  </div>
+
+	   </div>
+	</main>
+
+{% endblock %}
