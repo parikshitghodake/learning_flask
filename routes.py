@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request , session , redirect , url_for
 from models import db , User , Feedback , Movie
-from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie
+from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie 
 
 app = Flask( __name__ )
 
@@ -62,6 +62,13 @@ def home():
 			return render_template('home.html', form=form , moviename=my_movie , movienameExact=my_movie_dictExact )
 	elif request.method == 'GET' :
 			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
+
+
+
+@app.route("/watched")
+def watched():
+	return render_template("watched.html")
+
 
 
 @app.route('/feedback' , methods=['GET','POST'])

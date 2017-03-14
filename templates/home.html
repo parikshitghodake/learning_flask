@@ -44,6 +44,7 @@
 	  			{{ form.submit(class="btn-primary")}}
 
 	  		</form>
+	  		<!-- <form method="POST" action="/watched"> -->
 	  		{% if movienameExact and  (movienameExact['Error'] != "Movie not found!")  %}
 		   	<div id="result" style="width: 750px; margin-top: 40px; float: left; padding: 10px;border: 1px solid #1266f1;border-radius: 15px;">
 		   		<div class="posterSection" style="float:left;width: 220px; padding-right: 30px;">
@@ -66,6 +67,10 @@
 			   			<div id="imdbName">Rotten Tomatoes</div>
 			   			<div id=RTScore>{{movienameExact['tomatoRating']}}</div>
 			   			<div id=avg>Avg Score </div>
+			   			 <!-- {{ form.watched(class="btn-primary")}} -->
+		   		</div>
+		   		<div>
+
 		   		</div>
 		  	</div>
 		  	{% elif (movienameExact['Error'] == "Movie not found!") %}
@@ -73,6 +78,7 @@
 		  			Movie not found 
 		  		</div>
 		  	{% endif %}	
+		  	<!-- </form> -->
 		  </div>
 	  	</div>
 	   </div>

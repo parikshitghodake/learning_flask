@@ -24,3 +24,8 @@ class SearchMovie(Form):
 	movie_name = StringField('Movie Name' , validators=[DataRequired('Enter Movie Name')])
 	year = HiddenField('Year')
 	submit = SubmitField('Search')
+	watched = SubmitField('Watched')
+
+# class UserData(Form):
+# 	submit = SubmitField('Watched')
+# 	submit = SubmitField('Watchlist')

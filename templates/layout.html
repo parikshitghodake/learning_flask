@@ -10,6 +10,7 @@
         <h1 class="title">Movie Tracker</h1>
         <div class="Nav-bar">
               <span><a href="{{ url_for('home') }}">Home</a></span>
+              <span><a href="{{ url_for('watched') }}">Watched</a></span>
               <span><a href="{{ url_for('feedback') }}">Feedback</a></span>
               {% if not session.email %}
                   <a href="{{ url_for('login') }}">Log in</a>
