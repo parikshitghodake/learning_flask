@@ -5,7 +5,24 @@
 	<main class = "hero-section">
 	  <div class = "container">
 	    
-	  <div class="section-tabs">
+	  <div class="section-tabs" style="width: 255px;">
+	  {% if moviename %}
+	  <div style="font-size: 18px;font-weight: bold; padding-top: 20px;margin-top: 20px;">Are You Looking for this</div>
+	  {% endif %}
+	  		{% for moviename  in moviename  %}
+	  			{%if (moviename['Poster'] != "N/A") and  (movienameExact['Error'] != "Movie not found!") %}	
+			   	<div id="result" style="width: 230px; margin-top: 40px; float: left;">
+			   		<div class="posterSection" style="width: 150px; padding-right: 30px;">
+			   			<img src="{{moviename['Poster']}}" style="height: 100% ;width: 100%; border: 4px solid #1266f1;border-radius: 10px;" alt='.'>
+			   		</div>
+			   		<div class="infoSection" style="width: 100% ; ">
+			   			<div id="Title" style="font-size: 18px;font-weight: bold;"><a href="#">{{moviename['Title']}}</a></div>
+			   			<div id="releaseYear">{{moviename['Year']}}</div>
+			   		</div>
+			  	</div>
+			  	{% endif %}
+		  	{% endfor %}
+
 	  	
 	  </div>
 
@@ -25,12 +42,61 @@
 	  			</div>
 	  			
 	  			{{ form.submit(class="btn-primary")}}
-	  		
-	  		</form>
-	  	</div>
-	  </div>
 
+	  		</form>
+	  		{% if movienameExact and  (movienameExact['Error'] != "Movie not found!")  %}
+		   	<div id="result" style="width: 750px; margin-top: 40px; float: left; padding: 10px;border: 1px solid #1266f1;border-radius: 15px;">
+		   		<div class="posterSection" style="float:left;width: 220px; padding-right: 30px;">
+		   			<img src="{{movienameExact['Poster']}}" style="height: 330px ;width: 220px;border: 4px solid #1266f1; border-radius: 10px;" alt='.'>
+		   			<!-- <a href="#"> Watch Trailer</a> -->
+		   		</div>
+		   		<div class="infoSection" style="width: 350px ;margin-right: 15px; float: left;">
+		   			<div id="Title" style="font-size: 25px;font-weight: bold; padding-bottom: 16px;">{{movienameExact['Title']}}</div>
+		   			<div id="releaseYear">{{movienameExact['Year']}}</div>
+		   			<div id=genere style="padding-bottom: 16px;">{{movienameExact['Genre']}}</div>
+		   			<div id=plot style="padding-bottom: 16px;">{{movienameExact['Plot']}}</div>
+		   			<div id=director><span>Director : </span>{{movienameExact['Director']}}</div>
+		   			<div id=actor><span>Actors : </span> {{movienameExact['Actors']}}</div>
+		   		</div>
+		   			<div class="ratingSection" style="float: left;">
+		   				<div id="imdbName">IMDb</div>
+			   			<div id="imdbRating">{{movienameExact['imdbRating']}}</div>
+			   			<div id="imdbName">Metascore</div>
+			   			<div id="metascore">{{movienameExact['Metascore']}}</div>
+			   			<div id="imdbName">Rotten Tomatoes</div>
+			   			<div id=RTScore>{{movienameExact['tomatoRating']}}</div>
+			   			<div id=avg>Avg Score </div>
+		   		</div>
+		  	</div>
+		  	{% elif (movienameExact['Error'] == "Movie not found!") %}
+		  		<div id="result" style="width: 900px; margin-top: 40px; float: left;">
+		  			Movie not found 
+		  		</div>
+		  	{% endif %}	
+		  </div>
+	  	</div>
 	   </div>
+	   <style type="text/css">
+	   	.infoSection > div {
+	   		padding-bottom: 5px;
+	   	}
+	   	.hero-section{
+	   		color: #333;
+	   	}
+	   </style>
+
+
+	   
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>	
+		<script type="text/javascript">
+		$('#Title a').click(function(evt) {
+        	evt.preventDefault();
+        	var text = this.innerHTML;
+        	$("#movie_name").val("");
+        	$("#movie_name").val(text);
+        	$("#submit").click();
+    		});
+	   </script>
 	</main>
 
 {% endblock %}

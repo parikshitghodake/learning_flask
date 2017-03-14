@@ -45,20 +45,23 @@ def home():
 
 	form = SearchMovie()
 
+	my_movie = []
+	my_movie_dictExact = []
 
 	if request.method == 'POST' :
 		if form.validate() == False :
-			return render_template("home.html" , form=form)
+			return render_template("home.html" , form=form ,  moviename=my_movie , movienameExact=my_movie_dictExact)
 		else :
 			moviename = form.movie_name.data
 
 			m = Movie()
-			my_movie = m.query(moviename)
-
-			return render_template('home.html', form=form , moviename=my_movie)
+			my_movie_dictSearch = m.querySearch(moviename)
+			my_movie_dictExact = m.queryExact(moviename)
+			my_movie = my_movie_dictSearch.values()[0]
+			return render_template('home.html', form=form , moviename=my_movie , movienameExact=my_movie_dictExact )
 
 	elif request.method == 'GET' :
-			return render_template("home.html" , form=form)
+			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
 
 
 @app.route('/feedback' , methods=['GET','POST'])

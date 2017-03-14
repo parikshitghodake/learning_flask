@@ -41,15 +41,27 @@ class Feedback(db.Model):
 
 
 class Movie(object):
-  def query(self,moviename) :
-    query_url = 'http://netflixroulette.net/api/api.php?title=' + moviename
+  def querySearch(self,moviename) :
+    moviename = "+".join(moviename.split())
+    query_url = 'http://www.omdbapi.com/?s=' + moviename
     m = urllib2.urlopen(query_url)
     movielist = m.read()
     m.close()
 
     data = json.loads(movielist)
-    
-    """title = data['show_title']
+    return data
+
+  def queryExact(self,moviename) :
+    year = ''
+    moviename = "+".join(moviename.split())
+    query_url = 'http://www.omdbapi.com/?t=' + moviename + '&y=' + year
+    m = urllib2.urlopen(query_url)
+    movielist = m.read()
+    m.close()
+
+    data = json.loads(movielist)
+    '''
+    title = data['show_title']
     category = data['category']
     year = data['release_year']
     poster = data['poster']
@@ -66,8 +78,5 @@ class Movie(object):
     'director':director,
     'summary':summary,
     'cast':cast
-    }"""
-
-
-
-    return data
+    }'''
+    return data  
