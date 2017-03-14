@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField , PasswordField, SubmitField
+from wtforms import StringField , PasswordField, SubmitField, HiddenField
 from wtforms.validators import DataRequired , Email , Length
 
 class SignupForm(Form) :
@@ -22,4 +22,5 @@ class FeedbackForm(Form):
 
 class SearchMovie(Form):
 	movie_name = StringField('Movie Name' , validators=[DataRequired('Enter Movie Name')])
+	year = HiddenField('Year')
 	submit = SubmitField('Search')

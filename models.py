@@ -51,8 +51,8 @@ class Movie(object):
     data = json.loads(movielist)
     return data
 
-  def queryExact(self,moviename) :
-    year = ''
+  def queryExact(self,moviename ,year) :
+    year = year
     moviename = "+".join(moviename.split())
     query_url = 'http://www.omdbapi.com/?t=' + moviename + '&y=' + year
     m = urllib2.urlopen(query_url)

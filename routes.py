@@ -53,13 +53,13 @@ def home():
 			return render_template("home.html" , form=form ,  moviename=my_movie , movienameExact=my_movie_dictExact)
 		else :
 			moviename = form.movie_name.data
+			year = form.year.data
 
 			m = Movie()
 			my_movie_dictSearch = m.querySearch(moviename)
-			my_movie_dictExact = m.queryExact(moviename)
+			my_movie_dictExact = m.queryExact(moviename , year)
 			my_movie = my_movie_dictSearch.values()[0]
 			return render_template('home.html', form=form , moviename=my_movie , movienameExact=my_movie_dictExact )
-
 	elif request.method == 'GET' :
 			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
 
