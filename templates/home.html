@@ -110,25 +110,12 @@
         	$("#submit").click();
     		});
 
-/*	    $('#watched').click(function() {
-	        $.ajax({
-	            url: '/AddWatched',
-	            data: '{ sendData: "ok" }',
-	            type: 'POST',
-	            success: function(response) {
-	                alert('success');
-	            },
-	            error: function(error) {
-	                alert('fail');
-	            }
-	        });
-	    });*/
-	    $(function() {
+	$(function() {
+
+	var mm = { "Title" : "{{movienameExact['Title']}}", "b"  : 2005 };
+
     $('#watched').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-		name : {{movienameExact['Title']}},
-		Type : Movie
-      }, function(data) {
+      $.getJSON($SCRIPT_ROOT + '/_add_numbers', mm, function(data) {
         console.log(data.result);
       });
       return false;

@@ -64,11 +64,10 @@ def home():
 			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
 
 
-@app.route('/_add_numbers')
+@app.route('/add_numbers')
 def add_numbers():
-    a = request.args.get('Title')
-    return jsonify(a)
-
+    Title = request.args.get('Title')
+    return jsonify(result=Title)
 
 
 @app.route("/watched")
