@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request , session , redirect , url_for
+from flask import Flask, render_template, request , session , redirect , url_for , flash , jsonify
 from models import db , User , Feedback , Movie
 from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie 
 
@@ -62,6 +62,12 @@ def home():
 			return render_template('home.html', form=form , moviename=my_movie , movienameExact=my_movie_dictExact )
 	elif request.method == 'GET' :
 			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
+
+
+@app.route('/_add_numbers')
+def add_numbers():
+    a = request.args.get('Title')
+    return jsonify(a)
 
 
 
