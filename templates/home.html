@@ -112,8 +112,11 @@
 
 	$(function() {
 
-	var mm = { "Title" : "{{movienameExact['Title']}}", "b"  : 2005 };
-
+	var mm = { "Title" : "{{movienameExact['Title']}}", 
+			   "releaseYear"  : "{{movienameExact['Year']}}" ,
+			   "imdbID" : "{{movienameExact['imdbID']}}",
+			   "Plot" : "{{movienameExact['Plot']}}",
+			   "Poster" : "{{movienameExact['Poster']}}"};
     $('#watched').bind('click', function() {
       $.getJSON($SCRIPT_ROOT + '/_add_numbers', mm, function(data) {
         console.log(data.result);

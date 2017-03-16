@@ -39,6 +39,22 @@ class Feedback(db.Model):
     self.email = email.lower()
     self.comments = comments.title()
 
+class MovieInfo(db.Model):
+  __tablename__ = 'movieinfo_t'
+  id = db.Column(db.Integer, primary_key = True)
+  imdbid = db.Column(db.String(50), unique=True)
+  title = db.Column(db.String(100))
+  year = db.Column(db.String(20))
+  plot = db.Column(db.String(1000))
+  poster = db.Column(db.String(300))
+
+  def __init__(self, imdbid, title, year , plot , poster):
+    self.imdbid = imdbid.title()
+    self.title = title.title()
+    self.year = year.title()
+    self.plot = plot.title()
+    self.poster = poster.title()
+
 
 class Movie(object):
   def querySearch(self,moviename) :

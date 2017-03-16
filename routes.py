@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request , session , redirect , url_for , flash , jsonify
-from models import db , User , Feedback , Movie
+from models import db , User , Feedback , Movie , MovieInfo
 from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie 
 
 app = Flask( __name__ )
@@ -64,15 +64,24 @@ def home():
 			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
 
 
-@app.route('/add_numbers')
+@app.route('/_add_numbers')
 def add_numbers():
     Title = request.args.get('Title')
-    return jsonify(result=Title)
+    year = request.args.get('releaseYear')
+    ImdbID = request.args.get('imdbID')
+    Plot = request.args.get('Plot')
+    Poster = request.args.get('Poster')
+    newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster)
+    db.session.add(newMovie)
+    db.session.commit()
+    return jsonify(result=Title+year)
+    
 
 
 @app.route("/watched")
 def watched():
-	return render_template("watched.html")
+	watchedMovies = MovieInfo.query.all()#db.execute('SELECT title , poster from movieinfo_t')
+	return render_template("watched.html" , watchedMovies = watchedMovies)
 
 
 
