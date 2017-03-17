@@ -80,7 +80,7 @@ def add_numbers():
 
 @app.route("/watched")
 def watched():
-	watchedMovies = MovieInfo.query.all()#db.execute('SELECT title , poster from movieinfo_t')
+	watchedMovies = MovieInfo.query.all()#.filter_by(id=1)#db.execute('SELECT title , poster from movieinfo_t')
 	return render_template("watched.html" , watchedMovies = watchedMovies)
 
 

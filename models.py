@@ -53,7 +53,7 @@ class MovieInfo(db.Model):
     self.title = title.title()
     self.year = year.title()
     self.plot = plot.title()
-    self.poster = poster.title()
+    self.poster = poster
 
 
 class Movie(object):
