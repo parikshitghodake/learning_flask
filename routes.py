@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request , session , redirect , url_for , flash , jsonify
-from models import db , User , Feedback , Movie , MovieInfo
+from models import db , User , Feedback , Movie , MovieInfo , WatchedMovies
 from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie 
 
 app = Flask( __name__ )
@@ -60,28 +60,123 @@ def home():
 			my_movie_dictExact = m.queryExact(moviename , year)
 			my_movie = my_movie_dictSearch.values()[0]
 			return render_template('home.html', form=form , moviename=my_movie , movienameExact=my_movie_dictExact )
+	
 	elif request.method == 'GET' :
 			return render_template("home.html" , form=form , moviename=my_movie , movienameExact=my_movie_dictExact)
 
 
-@app.route('/_add_numbers')
-def add_numbers():
+@app.route('/_add_to_watched')
+def add_watched():
+	Title = request.args.get('Title')
+	year = request.args.get('releaseYear')
+	ImdbID = request.args.get('imdbID')
+	Plot = request.args.get('Plot')
+	Poster = request.args.get('Poster')
+	actors = request.args.get('Actors')
+	genre = request.args.get('Genre')
+	itemtype = request.args.get('Type')
+	country = request.args.get('Country')
+	awards = request.args.get('Awards')
+	released = request.args.get('Released')
+	writer = request.args.get('Writer')
+	imdbvotes = request.args.get('imdbVotes')
+	metascore = request.args.get('Metascore')
+	runtime = request.args.get('Runtime')
+	imdbrating = request.args.get('imdbRating')
+	director = request.args.get('Director')
+	language = request.args.get('Language')
+	rated = request.args.get('Rated')
+
+	mail=session['email']
+	ed_User = User.query.filter_by(email=mail).first()
+	currentuserid = ed_User.uid
+
+	movieChk = MovieInfo.query.filter_by(imdbid=ImdbID).first()
+
+	if movieChk is not None :
+		newMovieId = movieChk.id
+		newWatchedMovie = WatchedMovies(currentuserid , newMovieId)
+		db.session.add(newWatchedMovie)
+		db.session.commit()
+		return jsonify(result='movie added')
+	else :
+		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
+		db.session.add(newMovie)
+		db.session.commit()
+
+		newmovieChk = MovieInfo.query.filter_by(imdbid=ImdbID).first()
+		newMovieId = newmovieChk.id
+
+		newWatchedMovie = WatchedMovies(currentuserid , newMovieId)
+		db.session.add(newWatchedMovie)
+		db.session.commit()
+
+
+@app.route('/_add_to_watchlist')
+def _add_watchlist():
     Title = request.args.get('Title')
     year = request.args.get('releaseYear')
     ImdbID = request.args.get('imdbID')
     Plot = request.args.get('Plot')
     Poster = request.args.get('Poster')
-    newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster)
+    actors = request.args.get('Actors')
+    genre = request.args.get('Genre')
+    itemtype = request.args.get('Type')
+    country = request.args.get('Country')
+    awards = request.args.get('Awards')
+    released = request.args.get('Released')
+    writer = request.args.get('Writer')
+    imdbvotes = request.args.get('imdbVotes')
+    metascore = request.args.get('Metascore')
+    runtime = request.args.get('Runtime')
+    imdbrating = request.args.get('imdbRating')
+    director = request.args.get('Director')
+    language = request.args.get('Language')
+    rated = request.args.get('Rated')
+
+    newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
     db.session.add(newMovie)
     db.session.commit()
     return jsonify(result=Title+year)
-    
 
+@app.route('/_add_to_fav')
+def add_fav():
+    Title = request.args.get('Title')
+    year = request.args.get('releaseYear')
+    ImdbID = request.args.get('imdbID')
+    Plot = request.args.get('Plot')
+    Poster = request.args.get('Poster')
+    actors = request.args.get('Actors')
+    genre = request.args.get('Genre')
+    itemtype = request.args.get('itemType')
+    country = request.args.get('Country')
+    awards = request.args.get('Awards')
+    released = request.args.get('Released')
+    writer = request.args.get('Writer')
+    imdbvotes = request.args.get('imdbVotes')
+    metascore = request.args.get('Metascore')
+    runtime = request.args.get('Runtime')
+    imdbrating = request.args.get('imdbRating')
+    director = request.args.get('Director')
+    language = request.args.get('Language')
+    rated = request.args.get('Rated')
+
+    newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
+    db.session.add(newMovie)
+    db.session.commit()
+    return jsonify(result=Title+year)    
 
 @app.route("/watched")
 def watched():
-	watchedMovies = MovieInfo.query.all()#.filter_by(id=1)#db.execute('SELECT title , poster from movieinfo_t')
-	return render_template("watched.html" , watchedMovies = watchedMovies)
+	if 'email' not in session :
+		return redirect(url_for('login'))
+	
+	else:
+		mail=session['email']
+		ed_User = User.query.filter_by(email=mail).first()
+		currentuserid = ed_User.uid
+		watchedMovies = WatchedMovies.query.join(MovieInfo, WatchedMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year).filter(WatchedMovies.movie_id==MovieInfo.id).filter(WatchedMovies.user_id == currentuserid)
+		return render_template("watched.html" , watchedMovies = watchedMovies)
 
 
 

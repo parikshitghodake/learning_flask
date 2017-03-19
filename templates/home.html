@@ -69,7 +69,11 @@
 			   			<div id=avg>Avg Score </div>
 			   			 <!-- {{ form.watched(class="btn-primary")}}  -->
 		   			</div>
-						{{ form.watched(class="btn-primary")}} 
+		   			<div>
+						<span>{{ form.watched(class="btn-primary")}}</span>
+						<span>{{ form.watchlist(class="btn-primary")}}</span>
+						<span>{{ form.fav(class="btn-primary")}}</span>
+					</div>
 		   		<div>
 
 		   		</div>
@@ -116,13 +120,41 @@
 			   "releaseYear"  : "{{movienameExact['Year']}}" ,
 			   "imdbID" : "{{movienameExact['imdbID']}}",
 			   "Plot" : "{{movienameExact['Plot']}}",
-			   "Poster" : "{{movienameExact['Poster']}}"};
+			   "Poster" : "{{movienameExact['Poster']}}" ,
+			   "Actors" : "{{movienameExact['Actors']}}" ,
+			   "Genre" : "{{movienameExact['Genre']}}" ,
+			   "itemType" : "{{movienameExact['Type']}}" ,
+			   "Country" : "{{movienameExact['Country']}}" ,
+			   "Awards" : "{{movienameExact['awards']}}" ,
+			   "Released" : "{{movienameExact['Released']}}" ,
+			   "Writer" : "{{movienameExact['Writer']}}" ,
+			   "imdbVotes" : "{{movienameExact['imdbVotes']}}" ,
+			   "Metascore" : "{{movienameExact['Metascore']}}" ,
+			   "Runtime" : "{{movienameExact['Runtime']}}" ,
+			   "imdbRating" : "{{movienameExact['imdbRating']}}" ,
+			   "Director" : "{{movienameExact['Director']}}" ,
+			   "Language" : "{{movienameExact['Language']}}" ,
+			   "Rated" : "{{movienameExact['Rated']}}"};
     $('#watched').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_add_numbers', mm, function(data) {
-        console.log(data.result);
-      });
+      $.getJSON($SCRIPT_ROOT + '/_add_to_watched', mm, function(data) {
+        console.log(data.result + 'added to watched');
+      }); 
       return false;
     });
+    
+    $('#watchlist').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_add_to_watchlist', mm, function(data) {
+        console.log(data.result + 'added to watchlist');
+      }); 
+      return false;
+    });
+
+    $('#fav').bind('click', function() {
+      $.getJSON($SCRIPT_ROOT + '/_add_to_fav', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      return false;
+    });    
   });
 
 	   </script>

@@ -25,7 +25,5 @@ class SearchMovie(Form):
 	year = HiddenField('Year')
 	submit = SubmitField('Search')
 	watched = SubmitField('Watched')
-
-# class UserData(Form):
-# 	submit = SubmitField('Watched')
-# 	submit = SubmitField('Watchlist')
+	watchlist = SubmitField('Watchlist')
+	fav = SubmitField('Favorite')

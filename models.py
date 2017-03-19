@@ -40,20 +40,61 @@ class Feedback(db.Model):
     self.comments = comments.title()
 
 class MovieInfo(db.Model):
-  __tablename__ = 'movieinfo_t'
+  __tablename__ = 'moviedim'
   id = db.Column(db.Integer, primary_key = True)
   imdbid = db.Column(db.String(50), unique=True)
   title = db.Column(db.String(100))
   year = db.Column(db.String(20))
   plot = db.Column(db.String(1000))
   poster = db.Column(db.String(300))
+  rated = db.Column(db.String(20))
+  released = db.Column(db.String(20))
+  runtime = db.Column(db.String(20))
+  writer = db.Column(db.String(200))
+  awards = db.Column(db.String(300))
+  country = db.Column(db.String(50))
+  metascore = db.Column(db.String(10))
+  imdbrating = db.Column(db.String(10))
+  imdbvotes = db.Column(db.String(20))
+  itemtype = db.Column(db.String(20))
+  genre = db.Column(db.String(100))
+  director = db.Column(db.String(100))
+  actors = db.Column(db.String(200))
+  language = db.Column(db.String(50))
 
-  def __init__(self, imdbid, title, year , plot , poster):
-    self.imdbid = imdbid.title()
-    self.title = title.title()
-    self.year = year.title()
-    self.plot = plot.title()
+  def __init__(self, imdbid, title, year , plot , poster ,rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language):
+    self.imdbid = imdbid
+    self.title = title
+    self.year = year
+    self.plot = plot
     self.poster = poster
+    self.rated  = rated   
+    self.released = released
+    self.runtime = runtime
+    self.writer = writer
+    self.awards = awards
+    self.country = country
+    self.metascore = metascore
+    self.imdbrating = imdbrating
+    self.imdbvotes = imdbvotes
+    self.itemtype = itemtype
+    self.genre = genre
+    self.director = director
+    self.actors = actors
+    self.language = language
+
+class WatchedMovies(db.Model):
+    __tablename__ = 'watchedmoviesfact'
+    watchedmovies_id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer)
+    #watched_date = db.Column(db.Column(date))
+
+    def __init__(self, user_id, movie_id):
+      self.user_id = user_id
+      self.movie_id = movie_id
+      #self.watched_date = CURRENT_DATE
+      
 
 
 class Movie(object):
