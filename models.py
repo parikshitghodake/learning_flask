@@ -95,7 +95,29 @@ class WatchedMovies(db.Model):
       self.movie_id = movie_id
       #self.watched_date = CURRENT_DATE
       
+class WatchListMovies(db.Model):
+    __tablename__ = 'watchlistmoviesfact'
+    watchlistmovies_id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer)
+    #watched_date = db.Column(db.Column(date))
 
+    def __init__(self, user_id, movie_id):
+      self.user_id = user_id
+      self.movie_id = movie_id
+      #self.watched_date = CURRENT_DATE
+
+class FavMovies(db.Model):
+    __tablename__ = 'favmoviesfact'
+    favmovies_id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer)
+    movie_id = db.Column(db.Integer)
+    #watched_date = db.Column(db.Column(date))
+
+    def __init__(self, user_id, movie_id):
+      self.user_id = user_id
+      self.movie_id = movie_id
+      #self.watched_date = CURRENT_DATE      
 
 class Movie(object):
   def querySearch(self,moviename) :
