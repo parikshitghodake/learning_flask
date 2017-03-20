@@ -6,13 +6,35 @@
   		<div class = "container">
     	  	<div class="section-tabs" style="width: 900px" >
   				<div class="nav" style="margin-top: 70px;margin-left: 100px;" >
+  					<div style="margin-left: 300px; padding-bottom: 70px;">
+					<div id="tab1" onClick="JavaScript:selectTab(1);">Movies</div>
+					<div id="tab2" onClick="JavaScript:selectTab(2);">Series</div>
+					<br/>
+					</div>
+					<div style="clear: left;">
+					<div id="tab1Content" style="float: left;">
   					{% for movie in watchedMovies %}
-  					<div class="posterSection">
-			   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
-			   			<div id="Title">{{movie.title}}</div>
-			   			<div id="year">({{movie.year}})</div>
-  					</div>
+  						{% if movie.itemtype == 'movie' %}
+		  					<div class="posterSection">
+					   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
+					   			<div id="Title">{{movie.title}}</div>
+					   			<div id="year">({{movie.year}})</div>
+		  					</div>
+	  					{% endif %}
   					{% endfor %}
+					</div>
+					<div id="tab2Content" style="float: left;">
+  					{% for movie in watchedMovies %}
+  						{% if movie.itemtype == 'series' %}
+		  					<div class="posterSection">
+					   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
+					   			<div id="Title">{{movie.title}}</div>
+					   			<div id="year">({{movie.year}})</div>
+		  					</div>
+	  					{% endif %}
+  					{% endfor %}
+  					</div>
+  					</div>
   				</div>
   			</div>
   		</div>	
@@ -39,7 +61,42 @@
 	  	#year{
 	  		font-weight: italic;
 	  	}
+
+	  	#tab1, #tab2 {
+  float: left;
+  padding: 5px 10px 5px 10px;
+  background: #B00098;
+  color: #FFFFFF;
+  margin: 0px 5px 0px 5px;
+}
+
+#tab1:hover, #tab2:hover {
+  background: #E800C9;
+}
+
+
+#tab1Content {
+ display: block; 
+}
+
+#tab2Content {
+ display: none; 
+}}
+
 	  	</style>
+
+	  	<script type="text/javascript">
+	  		
+	  		function selectTab(tabIndex) {
+  //Hide All Tabs
+  document.getElementById('tab1Content').style.display="none";
+  document.getElementById('tab2Content').style.display="none";
+  
+  //Show the Selected Tab
+  document.getElementById('tab' + tabIndex + 'Content').style.display="block";  
+}
+
+	  	</script>
 	 </main>
 
 {% endblock %}

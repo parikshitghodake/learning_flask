@@ -94,12 +94,13 @@ def add_watched():
 	movieChk = MovieInfo.query.filter_by(imdbid=ImdbID).first()
 
 	if (movieChk is not None)  :
-		if (WatchedMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id) is None) :
+		if (WatchedMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id).first() is not None) :
+			return jsonify(result='This movie is already watched')
+		else :
 			newMovieId = movieChk.id
 			newWatchedMovie = WatchedMovies(currentuserid , newMovieId)
 			db.session.add(newWatchedMovie)
 			db.session.commit()
-			return jsonify(result='movie added')
 	else :
 		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
 		db.session.add(newMovie)
@@ -142,12 +143,13 @@ def add_watchlist():
 	movieChk = MovieInfo.query.filter_by(imdbid=ImdbID).first()
 
 	if movieChk is not None :
-		if (WatchListMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id) is None) :
+		if (WatchListMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id).first() is not None) :
+			return jsonify(result='movie is already added to watchlist')
+		else :
 			newMovieId = movieChk.id
 			newWatchlistMovie = WatchListMovies(currentuserid , newMovieId)
 			db.session.add(newWatchlistMovie)
 			db.session.commit()
-			return jsonify(result='movie added')
 	else :
 		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
 		db.session.add(newMovie)
@@ -189,12 +191,22 @@ def add_fav():
 	movieChk = MovieInfo.query.filter_by(imdbid=ImdbID).first()
 
 	if movieChk is not None :
-		if (FavMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id) is None) :
-			newMovieId = movieChk.id
-			newFavMovie = FavMovies(currentuserid , newMovieId)
-			db.session.add(newFavMovie)
-			db.session.commit()
-			return jsonify(result='movie added')
+		if (FavMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id).first() is not None) :
+			return jsonify(result='movie already added to Fav')
+		else :
+			if (WatchedMovies.query.filter_by(user_id=currentuserid,movie_id=movieChk.id).first() is not None) :
+				newMovieId = movieChk.id
+				newFavMovie = FavMovies(currentuserid , newMovieId)
+				db.session.add(newFavMovie)
+				db.session.commit()
+				return jsonify(result='movie already added to Watched so only added to Fav')
+			else :	
+				newMovieId = movieChk.id
+				newFavMovie = FavMovies(currentuserid , newMovieId)
+				newWatchedMovie = WatchedMovies(currentuserid,newMovieId)
+				db.session.add(newFavMovie)
+				db.session.add(newWatchedMovie)
+				db.session.commit()
 	else :
 		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
 		db.session.add(newMovie)
@@ -204,7 +216,9 @@ def add_fav():
 		newMovieId = newmovieChk.id
 
 		newFavMovie = FavMovies(currentuserid , newMovieId)
+		newWatchedMovie = WatchedMovies(currentuserid,newMovieId)
 		db.session.add(newFavMovie)
+		db.session.add(newWatchedMovie)
 		db.session.commit()    
 
 @app.route("/watched")
@@ -216,7 +230,7 @@ def watched():
 		mail=session['email']
 		ed_User = User.query.filter_by(email=mail).first()
 		currentuserid = ed_User.uid
-		watchedMovies = WatchedMovies.query.join(MovieInfo, WatchedMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year).filter(WatchedMovies.movie_id==MovieInfo.id).filter(WatchedMovies.user_id == currentuserid) #,MovieInfo.itemtype=='movie'
+		watchedMovies = WatchedMovies.query.join(MovieInfo, WatchedMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year,  MovieInfo.itemtype).filter(WatchedMovies.movie_id==MovieInfo.id).filter(WatchedMovies.user_id == currentuserid)
 		return render_template("watched.html" , watchedMovies = watchedMovies)
 
 
@@ -229,7 +243,7 @@ def watchlist():
 		mail=session['email']
 		ed_User = User.query.filter_by(email=mail).first()
 		currentuserid = ed_User.uid
-		myWatchListMovies = WatchListMovies.query.join(MovieInfo, WatchListMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year).filter(WatchListMovies.movie_id==MovieInfo.id).filter(WatchListMovies.user_id == currentuserid)
+		myWatchListMovies = WatchListMovies.query.join(MovieInfo, WatchListMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year , MovieInfo.itemtype).filter(WatchListMovies.movie_id==MovieInfo.id).filter(WatchListMovies.user_id == currentuserid)
 		return render_template("watchlist.html" , myWatchListMovies = myWatchListMovies)
 
 
@@ -242,7 +256,7 @@ def fav():
 		mail=session['email']
 		ed_User = User.query.filter_by(email=mail).first()
 		currentuserid = ed_User.uid
-		myFavMovies = FavMovies.query.join(MovieInfo, FavMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year).filter(FavMovies.movie_id==MovieInfo.id).filter(FavMovies.user_id == currentuserid)
+		myFavMovies = FavMovies.query.join(MovieInfo, FavMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year , MovieInfo.itemtype).filter(FavMovies.movie_id==MovieInfo.id).filter(FavMovies.user_id == currentuserid)
 		return render_template("favlist.html" , myFavMovies = myFavMovies)
 
 
