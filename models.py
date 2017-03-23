@@ -60,7 +60,7 @@ class MovieInfo(db.Model):
   genre = db.Column(db.String(100))
   director = db.Column(db.String(100))
   actors = db.Column(db.String(200))
-  language = db.Column(db.String(50))
+  language = db.Column(db.String(200))
 
   def __init__(self, imdbid, title, year , plot , poster ,rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language):
     self.imdbid = imdbid

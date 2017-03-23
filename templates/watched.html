@@ -6,11 +6,11 @@
   		<div class = "container">
     	  	<div class="section-tabs" style="width: 900px" >
   				<div class="nav" style="margin-top: 70px;margin-left: 100px;" >
-  					<div style="margin-left: 300px; padding-bottom: 70px;">
+  					<div style="margin-left: 300px;">
 					<div id="tab1" onClick="JavaScript:selectTab(1);">Movies</div>
 					<div id="tab2" onClick="JavaScript:selectTab(2);">Series</div>
-					<br/>
 					</div>
+					<hr id="tabline"/>
 					<div style="clear: left;">
 					<div id="tab1Content" style="float: left;">
   					{% for movie in watchedMovies %}
@@ -19,6 +19,7 @@
 					   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
 					   			<div id="Title">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
+					   			<button type="submit" id="moveToFav" class="btn-primary" value="{{movie.id}}" onclick="f1(this)">moveToFav</button>
 		  					</div>
 	  					{% endif %}
   					{% endfor %}
@@ -30,6 +31,8 @@
 					   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
 					   			<div id="Title">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
+					   			<button type="submit" id="moveToFav" class="btn-primary" value="{{movie.id}}" onclick="f1(this)">moveToFav
+					   			</button>
 		  					</div>
 	  					{% endif %}
   					{% endfor %}
@@ -63,25 +66,32 @@
 	  	}
 
 	  	#tab1, #tab2 {
-  float: left;
-  padding: 5px 10px 5px 10px;
-  background: #B00098;
-  color: #FFFFFF;
-  margin: 0px 5px 0px 5px;
-}
+			float: left;
+			padding: 5px 10px 5px 10px;
+			background: #4285F4;
+			color: #FFFFFF;
+			margin: 0px 5px 0px 5px;
+		}
+		
+		#tab1:hover, #tab2:hover {
+			background: #1266f1;
+		}
 
-#tab1:hover, #tab2:hover {
-  background: #E800C9;
-}
+		#tab1Content {
+			display: block; 
+		}
 
+		#tab2Content {
+			display: none; 
+		}
 
-#tab1Content {
- display: block; 
-}
-
-#tab2Content {
- display: none; 
-}}
+		#tabline {
+			clear: left;
+			height: 3px;
+			background-color: #4285F4;
+			border: 1px solid #4285f4;
+			margin-bottom: 30px;
+		}
 
 	  	</style>
 
@@ -95,6 +105,18 @@
   //Show the Selected Tab
   document.getElementById('tab' + tabIndex + 'Content').style.display="block";  
 }
+
+function f1(objButton){
+	movieid = objButton.value  
+    var mm = { "id" : movieid,
+    			}
+      $.getJSON($SCRIPT_ROOT + '/_moved_to_Fav', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      return false;  
+}
+
+  
 
 	  	</script>
 	 </main>

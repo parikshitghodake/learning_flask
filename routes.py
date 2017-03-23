@@ -221,6 +221,20 @@ def add_fav():
 		db.session.add(newWatchedMovie)
 		db.session.commit()    
 
+@app.route("/_moved_to_Fav")
+def moved_to_Fav():
+	newMovieIdToFav = request.args.get('id')
+
+	mail=session['email']
+	ed_User = User.query.filter_by(email=mail).first()
+	currentuserid = ed_User.uid
+	if (FavMovies.query.filter_by(user_id=currentuserid,movie_id=newMovieIdToFav).first() is not None) :
+			return jsonify(result='movie already added to Fav')
+	else :
+			newFavMovie = FavMovies(currentuserid , newMovieIdToFav)
+			db.session.add(newFavMovie)
+			db.session.commit()
+
 @app.route("/watched")
 def watched():
 	if 'email' not in session :
@@ -230,7 +244,7 @@ def watched():
 		mail=session['email']
 		ed_User = User.query.filter_by(email=mail).first()
 		currentuserid = ed_User.uid
-		watchedMovies = WatchedMovies.query.join(MovieInfo, WatchedMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year,  MovieInfo.itemtype).filter(WatchedMovies.movie_id==MovieInfo.id).filter(WatchedMovies.user_id == currentuserid)
+		watchedMovies = WatchedMovies.query.join(MovieInfo, WatchedMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year,  MovieInfo.itemtype , MovieInfo.id).filter(WatchedMovies.movie_id==MovieInfo.id).filter(WatchedMovies.user_id == currentuserid)
 		return render_template("watched.html" , watchedMovies = watchedMovies)
 
 
