@@ -15,9 +15,13 @@
   					{% for movie in myWatchListMovies %}
   						{% if movie.itemtype == 'movie' %}
 		  					<div class="posterSection">
-					   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
-					   			<div id="Title">{{movie.title}}</div>
+					   			<img id="poster" title="{{movie.title}}"" src="{{movie.poster}}" alt='.'> 	
+					   			<div id="Title" title="{{movie.title}}">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
+					   			<button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button>
+					   			<button type="submit" id="recommend" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa  fa-thumbs-o-up fa-fw" aria-hidden="true"></i></button>
+					   			<!-- <button type="submit" id="shareMovie" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-share fa-fw" aria-hidden="true"></i></button> -->
+					   			<button type="submit" id="Remove" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i></button>						   			
 		  					</div>
 	  					{% endif %}
   					{% endfor %}
@@ -26,9 +30,13 @@
   					{% for movie in myWatchListMovies %}
   						{% if movie.itemtype == 'series' %}
 		  					<div class="posterSection">
-					   			<img id="poster" src="{{movie.poster}}" alt='.'> 	
-					   			<div id="Title">{{movie.title}}</div>
+					   			<img id="poster" title="{{movie.title}}"" src="{{movie.poster}}" alt='.'> 	
+					   			<div id="Title" title="{{movie.title}}">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
+					   			<button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button>
+					   			<button type="submit" id="recommend" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa  fa-thumbs-o-up fa-fw" aria-hidden="true"></i></button>
+					   			<!-- <button type="submit" id="shareMovie" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-share fa-fw" aria-hidden="true"></i></button> -->
+					   			<button type="submit" id="Remove" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i></button>						   			
 		  					</div>
 	  					{% endif %}
   					{% endfor %}
@@ -42,11 +50,12 @@
 	  	.posterSection{
 	  		float:left;
 	  		width: 170px;
-	  		max-height: 320px;
+	  		min-height: 320px;
 	  		padding-right: 30px;
 	  		padding-bottom: 20px;
 	  		font-size: 18px;
 	  		color: #333;
+	  		overflow: hidden;
 	  	}
 	  	#poster{
 	  		height: 255px;
@@ -54,9 +63,15 @@
 	  		border: 4px solid #1266f1; 
 	  		border-radius: 10px;
 	  	}
-	  	#Title{
-	  		font-weight: bold;
-	  	}
+		#Title {
+			font-weight: bold;
+			height: 30px;
+			overflow: hidden;
+			white-space: nowrap;
+			display: block;
+			/* max-width: 224px; */
+			text-overflow: ellipsis;
+		}
 	  	#year{
 	  		font-weight: italic;
 	  	}

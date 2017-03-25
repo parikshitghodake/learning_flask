@@ -50,7 +50,7 @@ class MovieInfo(db.Model):
   rated = db.Column(db.String(20))
   released = db.Column(db.String(20))
   runtime = db.Column(db.String(20))
-  writer = db.Column(db.String(200))
+  writer = db.Column(db.String(1000))
   awards = db.Column(db.String(300))
   country = db.Column(db.String(50))
   metascore = db.Column(db.String(10))

@@ -235,6 +235,41 @@ def moved_to_Fav():
 			db.session.add(newFavMovie)
 			db.session.commit()
 
+@app.route('/_remove_from_watched')
+def remove_from_watched():
+	movieToremove = request.args.get('id')
+
+	mail=session['email']
+	ed_User = User.query.filter_by(email=mail).first()
+	currentuserid = ed_User.uid
+
+	if (WatchedMovies.query.filter_by(user_id=currentuserid,movie_id=movieToremove).first() is None) :
+			return jsonify(result='Movie is already removed')
+	else :
+			#Check for Fav if present delete from Fav too
+			removeMovie = WatchedMovies.query.filter_by(user_id=currentuserid,movie_id=movieToremove).first()
+			db.session.delete(removeMovie)
+			db.session.commit()
+			return jsonify(result=removeMovie.watchedmovies_id)
+
+
+@app.route('/_remove_from_fav')
+def remove_from_fav():
+	movieToremove = request.args.get('id')
+
+	mail=session['email']
+	ed_User = User.query.filter_by(email=mail).first()
+	currentuserid = ed_User.uid
+
+	if (FavMovies.query.filter_by(user_id=currentuserid,movie_id=movieToremove).first() is None) :
+			return jsonify(result='Movie is already removed')
+	else :
+			#Check for Fav if present delete from Fav too
+			removeMovie = FavMovies.query.filter_by(user_id=currentuserid,movie_id=movieToremove).first()
+			db.session.delete(removeMovie)
+			db.session.commit()
+			return jsonify(result=removeMovie.watchedmovies_id)
+
 @app.route("/watched")
 def watched():
 	if 'email' not in session :
@@ -270,7 +305,7 @@ def fav():
 		mail=session['email']
 		ed_User = User.query.filter_by(email=mail).first()
 		currentuserid = ed_User.uid
-		myFavMovies = FavMovies.query.join(MovieInfo, FavMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year , MovieInfo.itemtype).filter(FavMovies.movie_id==MovieInfo.id).filter(FavMovies.user_id == currentuserid)
+		myFavMovies = FavMovies.query.join(MovieInfo, FavMovies.movie_id==MovieInfo.id).add_columns(MovieInfo.poster, MovieInfo.title, MovieInfo.year , MovieInfo.itemtype ,MovieInfo.id).filter(FavMovies.movie_id==MovieInfo.id).filter(FavMovies.user_id == currentuserid)
 		return render_template("favlist.html" , myFavMovies = myFavMovies)
 
 
