@@ -279,24 +279,6 @@ def moved_to_Watched():
 			db.session.add(newFavMovie)
 			db.session.commit()
 
-#Add movie to Fav movies from Watched Movie page , on click of Fav button below every movie of Watched Page
-@app.route("/_moved_to_Watchlist")
-def moved_to_Watchlist():
-	# Get id of movie from page to add to fav
-	newMovieIdToFav = request.args.get('id')
-
-	#Get id of current user
-	mail=session['email']
-	ed_User = User.query.filter_by(email=mail).first()
-	currentuserid = ed_User.uid
-	# if Movie is already added to Fav show message it is already added
-	if (WatchListMovies.query.filter_by(user_id=currentuserid,movie_id=newMovieIdToFav).first() is not None) :
-			return jsonify(result='movie already added to Fav')
-	else :
-			#if movie is not in Favorite list add this movie to Favorite movies list		
-			newFavMovie = WatchListMovies(currentuserid , newMovieIdToFav)
-			db.session.add(newFavMovie)
-			db.session.commit()
 
 #Add movie to Fav movies from Watched Movie page , on click of Fav button below every movie of Watched Page
 @app.route("/_moved_to_Fav")
@@ -318,6 +300,25 @@ def moved_to_Fav():
 			db.session.commit()
 
 
+
+#Add movie to Fav movies from Watched Movie page , on click of Fav button below every movie of Watched Page
+@app.route("/_moved_to_Watchlist")
+def moved_to_Watchlist():
+	# Get id of movie from page to add to fav
+	newMovieIdToFav = request.args.get('id')
+
+	#Get id of current user
+	mail=session['email']
+	ed_User = User.query.filter_by(email=mail).first()
+	currentuserid = ed_User.uid
+	# if Movie is already added to Fav show message it is already added
+	if (WatchListMovies.query.filter_by(user_id=currentuserid,movie_id=newMovieIdToFav).first() is not None) :
+			return jsonify(result='movie already added to Fav')
+	else :
+			#if movie is not in Favorite list add this movie to Favorite movies list		
+			newFavMovie = WatchListMovies(currentuserid , newMovieIdToFav)
+			db.session.add(newFavMovie)
+			db.session.commit()
 #Discard wrongly added movie from Watched movie list
 @app.route('/_remove_from_watched')
 def remove_from_watched():
