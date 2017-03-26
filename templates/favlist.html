@@ -18,7 +18,7 @@
 					   			<img id="poster" title="{{movie.title}}" src="{{movie.poster}}" alt='.'> 	
 					   			<div id="Title" title="{{movie.title}}">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
-					   			<!-- <button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button> -->
+					   			<button type="submit" id="moveTowatchlist" class="list-group-item MovieButton" value="{{movie.id}}" onclick="moveToWatchlist(this)"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></button>
 					   			<!-- <button type="submit" id="recommend" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa  fa-thumbs-o-up fa-fw" aria-hidden="true"></i></button> -->
 					   			<!-- <button type="submit" id="shareMovie" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-share fa-fw" aria-hidden="true"></i></button> -->
 					   			<button type="submit" id="RemoveFromFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i></button>	
@@ -109,6 +109,22 @@
   //Show the Selected Tab
   document.getElementById('tab' + tabIndex + 'Content').style.display="block";  
 }
+
+function moveToWatchlist(objButton){
+	movieid = objButton.value  
+    var mm = { "id" : movieid,
+    			}
+      $.getJSON($SCRIPT_ROOT + '/_moved_to_Watchlist', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      });
+      $.getJSON($SCRIPT_ROOT + '/_remove_from_watched', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      });
+      $.getJSON($SCRIPT_ROOT + '/_remove_from_fav', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      return false;  
+}  
 
 function Remove(objButton){
 	movieid = objButton.value  

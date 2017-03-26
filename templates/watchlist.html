@@ -18,8 +18,8 @@
 					   			<img id="poster" title="{{movie.title}}"" src="{{movie.poster}}" alt='.'> 	
 					   			<div id="Title" title="{{movie.title}}">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
-					   			<button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button>
-					   			<button type="submit" id="recommend" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa  fa-thumbs-o-up fa-fw" aria-hidden="true"></i></button>
+					   			<button type="submit" id="addToWatched" class="list-group-item MovieButton" value="{{movie.id}}" onclick="AddToWatched(this)"><i class="fa  fa-eye fa-fw" aria-hidden="true"></i></button>
+					   			<button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="AddToFav(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button>
 					   			<!-- <button type="submit" id="shareMovie" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-share fa-fw" aria-hidden="true"></i></button> -->
 					   			<button type="submit" id="Remove" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i></button>						   			
 		  					</div>
@@ -33,8 +33,8 @@
 					   			<img id="poster" title="{{movie.title}}"" src="{{movie.poster}}" alt='.'> 	
 					   			<div id="Title" title="{{movie.title}}">{{movie.title}}</div>
 					   			<div id="year">({{movie.year}})</div>
-					   			<button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button>
-					   			<button type="submit" id="recommend" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa  fa-thumbs-o-up fa-fw" aria-hidden="true"></i></button>
+					   			<button type="submit" id="addToWatched" class="list-group-item MovieButton" value="{{movie.id}}" onclick="AddToWatched(this)"><i class="fa  fa-eye fa-fw" aria-hidden="true"></i></button>
+					   			<button type="submit" id="moveToFav" class="list-group-item MovieButton" value="{{movie.id}}" onclick="AddToFav(this)"><i class="fa fa-heart fa-fw" aria-hidden="true"></i></button>
 					   			<!-- <button type="submit" id="shareMovie" class="list-group-item MovieButton" value="{{movie.id}}" onclick="f1(this)"><i class="fa fa-share fa-fw" aria-hidden="true"></i></button> -->
 					   			<button type="submit" id="Remove" class="list-group-item MovieButton" value="{{movie.id}}" onclick="Remove(this)"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i></button>						   			
 		  					</div>
@@ -108,6 +108,44 @@
   
   //Show the Selected Tab
   document.getElementById('tab' + tabIndex + 'Content').style.display="block";  
+}
+function Remove(objButton){
+	movieid = objButton.value  
+    var mm = { "id" : movieid,
+    			}
+      $.getJSON($SCRIPT_ROOT + '/_remove_from_watchList', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      return false;  
+}  
+
+function AddToWatched(objButton){
+	movieid = objButton.value  
+    var mm = { "id" : movieid,
+    			}
+      $.getJSON($SCRIPT_ROOT + '/_moved_to_Watched', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      $.getJSON($SCRIPT_ROOT + '/_remove_from_watchList', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      return false;  
+}
+
+function AddToFav(objButton){
+	movieid = objButton.value  
+    var mm = { "id" : movieid,
+    			}
+      $.getJSON($SCRIPT_ROOT + '/_moved_to_Watched', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      $.getJSON($SCRIPT_ROOT + '/_moved_to_Fav', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      $.getJSON($SCRIPT_ROOT + '/_remove_from_watchList', mm, function(data) {
+        console.log(data.result + 'added to fav');
+      }); 
+      return false;  
 }
 
 	  	</script>
