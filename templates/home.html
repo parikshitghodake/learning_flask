@@ -44,7 +44,6 @@
 	  			{{ form.submit(class="btn-primary")}}
 
 	  		</form>
-	  		<!-- <form method="POST" action="/watched"> -->
 	  		{% if movienameExact and  (movienameExact['Error'] != "Movie not found!")  %}
 		   	<div id="result" style="width: 750px; margin-top: 40px; float: left; padding: 10px;border: 1px solid #1266f1;border-radius: 15px;">
 		   		<div class="posterSection" style="float:left;width: 220px; padding-right: 30px;">
@@ -82,7 +81,6 @@
 		  			Movie not found 
 		  		</div>
 		  	{% endif %}	
-		  	<!-- </form> -->
 		  </div>
 	  	</div>
 	   </div>
@@ -105,7 +103,8 @@
 		$('#Title a').click(function(evt) {
         	evt.preventDefault();
         	var text = this.innerHTML;
-        	var year = $(this).parent().parent('.infoSection').children('#releaseYear').html();
+        	var year1 = $(this).parent().parent('.infoSection').children('#releaseYear').html();
+        	var year = year1.substr(0, 4);
         	$("#movie_name").val("");
         	$("#movie_name").val(text);
         	$("#year").val("");
