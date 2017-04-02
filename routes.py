@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request , session , redirect , url_for , flash , jsonify
 from models import db , User , Feedback , Movie , MovieInfo , WatchedMovies , WatchListMovies , FavMovies
-from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie 
+from forms import SignupForm , LoginForm , FeedbackForm , SearchMovie
 
 app = Flask( __name__ )
 
@@ -104,7 +104,18 @@ def add_watched():
 	director = request.args.get('Director')
 	language = request.args.get('Language')
 	rated = request.args.get('Rated')
-
+	tomatoMeter = request.args.get('tomatoMeter')
+	tomatoRating = request.args.get('tomatoRating')
+	tomatoUserMeter = request.args.get('tomatoUserMeter')
+	tomatoUserRating = request.args.get('tomatoUserRating')
+	tomatoURL = request.args.get('tomatoURL')
+	DVD = request.args.get('DVD')
+	BoxOffice = request.args.get('BoxOffice')
+	Production = request.args.get('Production')
+	Website = request.args.get('Website')
+	imdbScore = request.args.get('imdbScore')
+	rtScore = request.args.get('rtScore')
+	metaScore = request.args.get('metaScore')
 	#Get logged in user id 
 	mail=session['email']
 	ed_User = User.query.filter_by(email=mail).first()
@@ -124,7 +135,7 @@ def add_watched():
 			db.session.commit()
 	else :
 		# If movie is not added to moviedim , then add movie to MovieDim 
-		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
+		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language , tomatoMeter , tomatoRating , tomatoUserMeter , tomatoUserRating , tomatoURL , DVD , BoxOffice , Production , Website , imdbScore , rtScore , metaScore)
 		db.session.add(newMovie)
 		db.session.commit()
 		# Get id of newly added movie from MovieDim , 
@@ -158,6 +169,18 @@ def add_watchlist():
 	director = request.args.get('Director')
 	language = request.args.get('Language')
 	rated = request.args.get('Rated')
+	tomatoMeter = request.args.get('tomatoMeter')
+	tomatoRating = request.args.get('tomatoRating')
+	tomatoUserMeter = request.args.get('tomatoUserMeter')
+	tomatoUserRating = request.args.get('tomatoUserRating')
+	tomatoURL = request.args.get('tomatoURL')
+	DVD = request.args.get('DVD')
+	BoxOffice = request.args.get('BoxOffice')
+	Production = request.args.get('Production')
+	Website = request.args.get('Website')
+	imdbScore = request.args.get('imdbScore')
+	rtScore = request.args.get('rtScore')
+	metaScore = request.args.get('metaScore')
 
 	#Get logged in user id 
 	mail=session['email']
@@ -179,7 +202,7 @@ def add_watchlist():
 			db.session.commit()
 	else :
 		# If movie is not added to moviedim , then add movie to MovieDim 
-		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
+		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language , tomatoMeter , tomatoRating , tomatoUserMeter , tomatoUserRating , tomatoURL , DVD , BoxOffice , Production , Website , imdbScore , rtScore , metaScore)
 		db.session.add(newMovie)
 		db.session.commit()
 		# Get id of newly added movie from MovieDim , 
@@ -213,6 +236,18 @@ def add_fav():
 	director = request.args.get('Director')
 	language = request.args.get('Language')
 	rated = request.args.get('Rated')
+	tomatoMeter = request.args.get('tomatoMeter')
+	tomatoRating = request.args.get('tomatoRating')
+	tomatoUserMeter = request.args.get('tomatoUserMeter')
+	tomatoUserRating = request.args.get('tomatoUserRating')
+	tomatoURL = request.args.get('tomatoURL')
+	DVD = request.args.get('DVD')
+	BoxOffice = request.args.get('BoxOffice')
+	Production = request.args.get('Production')
+	Website = request.args.get('Website')
+	imdbScore = request.args.get('imdbScore')
+	rtScore = request.args.get('rtScore')
+	metaScore = request.args.get('metaScore')
 
 	#Get current user id
 	mail=session['email']
@@ -245,7 +280,7 @@ def add_fav():
 				db.session.commit()
 	else :
 		#If movie is not there in MovieDim , Add movie to Movie Dim first
-		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language)
+		newMovie = MovieInfo(ImdbID , Title , year , Plot , Poster , rated , released , runtime ,writer ,awards , country , metascore , imdbrating , imdbvotes , itemtype , genre , director , actors , language , tomatoMeter , tomatoRating , tomatoUserMeter , tomatoUserRating , tomatoURL , DVD , BoxOffice , Production , Website , imdbScore , rtScore , metaScore)
 		db.session.add(newMovie)
 		db.session.commit()
 
@@ -388,7 +423,7 @@ def remove_from_watchList() :
 def watched():
 	if 'email' not in session :
 		return redirect(url_for('login'))
-	
+
 	else:
 		# Get current user id
 		mail=session['email']

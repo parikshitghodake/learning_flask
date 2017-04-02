@@ -192,6 +192,15 @@ header {
   width: 100%;
 }
 
+.form-group textarea {
+  border: 2px solid #4285f4;
+  background-color: transparent;
+  color: #3a3a3a;
+  font-size: 18px;
+  padding: 5px 5px;
+  width: 100%;
+}
+
 #SearchBar input {
   width: 85%;
 }

@@ -58,13 +58,13 @@
 		   			<div id=director><span>Director : </span>{{movienameExact['Director']}}</div>
 		   			<div id=actor><span>Actors : </span> {{movienameExact['Actors']}}</div>
 		   		</div>
-		   			<div class="ratingSection" style="float: left;">
-		   				<div id="imdbName">IMDb</div>
+		   			<div class="ratingSection" style="float: left; margin-top: 70px;">
+		   				<div id="siteName">IMDb</div>
 			   			<div id="imdbRating">{{movienameExact['imdbRating']}}</div>
-			   			<div id="imdbName">Metascore</div>
+			   			<div id="siteName">TomatoeMeter</div>
+			   			<div id="rtRating">{{movienameExact['rtScore']}}</div>
+			   			<div id="siteName">Metascore</div>
 			   			<div id="metascore">{{movienameExact['Metascore']}}</div>
-			   			<div id="imdbName">Rotten Tomatoes</div>
-			   			<div id=RTScore>{{movienameExact['tomatoRating']}}</div>
 			   			<div id=avg>Avg Score </div>
 		   			</div>
 		   			<div>
@@ -123,7 +123,7 @@
 			   "Genre" : "{{movienameExact['Genre']}}" ,
 			   "itemType" : "{{movienameExact['Type']}}" ,
 			   "Country" : "{{movienameExact['Country']}}" ,
-			   "Awards" : "{{movienameExact['awards']}}" ,
+			   "Awards" : "{{movienameExact['Awards']}}" ,
 			   "Released" : "{{movienameExact['Released']}}" ,
 			   "Writer" : "{{movienameExact['Writer']}}" ,
 			   "imdbVotes" : "{{movienameExact['imdbVotes']}}" ,
@@ -132,9 +132,22 @@
 			   "imdbRating" : "{{movienameExact['imdbRating']}}" ,
 			   "Director" : "{{movienameExact['Director']}}" ,
 			   "Language" : "{{movienameExact['Language']}}" ,
-			   "Rated" : "{{movienameExact['Rated']}}"};
+			   "Rated" : "{{movienameExact['Rated']}}",
+			   "tomatoMeter" : "{{movienameExact['tomatoMeter']}}",
+			   "tomatoRating" : "{{movienameExact['tomatoRating']}}",
+			   "tomatoUserMeter" : "{{movienameExact['tomatoUserMeter']}}",
+			   "tomatoUserRating" : "{{movienameExact['tomatoUserRating']}}",
+			   "tomatoURL" : "{{movienameExact['tomatoURL']}}",
+			   "DVD" : "{{movienameExact['DVD']}}",
+			   "BoxOffice" : "{{movienameExact['BoxOffice']}}",
+			   "Production" : "{{movienameExact['Production']}}",
+			   "Website" : "{{movienameExact['Website']}}",
+			   "imdbScore" : "{{movienameExact['imdbScore']}}",
+			   "rtScore" : "{{movienameExact['rtScore']}}",
+			   "metaScore" : "{{movienameExact['metaScore']}}"};
+
     $('#watched').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_add_to_watched', mm, function(data) {
+      $.getJSON($SCRIPT_ROOT + '/_add_to_watched', mm , function(data) {
         console.log(data.result + 'added to watched');
       }); 
       return false;
