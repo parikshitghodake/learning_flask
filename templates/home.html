@@ -58,13 +58,44 @@
 		   			<div id=director><span>Director : </span>{{movienameExact['Director']}}</div>
 		   			<div id=actor><span>Actors : </span> {{movienameExact['Actors']}}</div>
 		   		</div>
-		   			<div class="ratingSection" style="float: left; margin-top: 70px;">
-		   				<div id="siteName">IMDb</div>
-			   			<div id="imdbRating">{{movienameExact['imdbRating']}}</div>
-			   			<div id="siteName">TomatoeMeter</div>
-			   			<div id="rtRating">{{movienameExact['rtScore']}}</div>
-			   			<div id="siteName">Metascore</div>
-			   			<div id="metascore">{{movienameExact['Metascore']}}</div>
+		   			<div class="ratingSection" style="float: left; margin-top:40px;">
+
+		   				<div id="siteName" style="font-size: 18px ; color: #EFC32F;">IMDb</div>
+			   			<div id="imdbRating">
+						  <div id="bar-4" class="bar-main-container yellow">
+						    <div class="wrap">
+						      <div class="bar-percentage" data-percentage="{{movienameExact['imdbRating'] | int *10}}"></div>
+						      <div class="bar-container">
+						        <div class="bar"></div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+
+			   			<div id="siteName" style="font-size: 18px ; color: #E44C41;">RTMeter</div>
+			   			<div id="rtRating">
+						  <div id="bar-5" class="bar-main-container red">
+						    <div class="wrap">
+						      <div class="bar-percentage" data-percentage="{{movienameExact['rtScore'] | replace('%','') | int}}"></div>
+						      <div class="bar-container">
+						        <div class="bar"></div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+
+			   			<div id="siteName" style="font-size: 18px ; color: #8E5D9F;">Metascore</div>
+			   			<div id="metascore">
+						  <div id="bar-3" class="bar-main-container violet">
+						    <div class="wrap">
+						      <div class="bar-percentage" data-percentage="{{movienameExact['Metascore'] | int}}"></div>
+						      <div class="bar-container">
+						        <div class="bar"></div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+
 			   			<div id=avg>Avg Score </div>
 		   			</div>
 		   			<div>
@@ -73,7 +104,6 @@
 						<span>{{ form.fav(class="btn-primary")}}</span>
 					</div>
 		   		<div>
-
 		   		</div>
 		  	</div>
 		  	{% elif (movienameExact['Error'] == "Movie not found!") %}
@@ -94,8 +124,9 @@
 	   </style>
 
 
-	   
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>	
+	    <link href="{{ url_for('static', filename='css/radialProgress.css') }}" rel="stylesheet">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script type="text/javascript" src="{{ url_for('static' , filename='js/progress.js')}}"></script>	
 		<script type="text/javascript">
 		$(document).ready(function(){
 			$("#year").val("");
