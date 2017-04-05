@@ -10,7 +10,7 @@ $('.bar-percentage[data-percentage]').each(function () {
     if(percentage == 0){
       pct = Math.floor(this.countNum) + '%';
     }else{
-      pct = Math.floor(this.countNum+1) + '%';
+      pct = Math.floor(this.countNum) + '%';
     }
     progress.text(pct) && progress.siblings().children().css('width',pct);
     }

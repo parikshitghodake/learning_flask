@@ -99,13 +99,16 @@
 			   			<div id=avg>Avg Score </div>
 		   			</div>
 		   			<div>
-						<span>{{ form.watched(class="btn-primary")}}</span>
-						<span>{{ form.watchlist(class="btn-primary")}}</span>
-						<span>{{ form.fav(class="btn-primary")}}</span>
 					</div>
 		   		<div>
 		   		</div>
 		  	</div>
+		   			<div id="buttonContainer" style="float: right;">
+					   	<button title="Add to Watched" type="submit" id="watched" class="list-group-item MovieButton"><i class="fa  fa-eye fa-fw" aria-hidden="true" style="color:#FFF; font-size:38px;"></i></button>
+					   	<button title="Add to Favorite" type="submit" id="fav" class="list-group-item MovieButton"><i class="fa fa-heart fa-fw" aria-hidden="true" style="color:#FFF;font-size:38px;"></i></button>
+					   	<button title="Add to Watchlist" type="submit" id="watchlist" class="list-group-item MovieButton"><i class="fa  fa-plus fa-fw" aria-hidden="true" style="color:#FFF;font-size:38px;"></i></button>
+					</div>
+
 		  	{% elif (movienameExact['Error'] == "Movie not found!") %}
 		  		<div id="result" style="width: 900px; margin-top: 40px; float: left;">
 		  			Movie not found 
@@ -120,6 +123,12 @@
 	   	}
 	   	.hero-section{
 	   		color: #333;
+	   	}
+
+	   	.MovieButton{
+	   		background-color: #4285f4;
+			border: 0px;
+			border-radius: 2px;
 	   	}
 	   </style>
 
